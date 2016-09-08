@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+	<head>
+		<title></title>
+		<style type="text/css">
+
+			body {background-color: rgb(230,230,230)}
+			h1 {background-color: #00ff00}
+			h2 {background-color: transparent}
+			p {background-color: rgb(250,255,255); font-size:30px;}
+
+			p.no2 {background-color: gray; padding: 10px;}
+			input{width:200;height:40px;}
+            button{width:100%;height:50px;font-size:30px;}
+</style>
+	</head>
+	<body>
+	<br/><br/>
+    <p  id='times'>click count: 0</p>
+	<div id="content">
+		
+	</div>
+	
+	
+	<input id="text" /><br /><br />
+	<button onclick=change()>change</button>
+	
+	<script>
+	    var count = 1;
+		function change(){
+			var times = document.getElementById('times');
+			times.innerHTML='click count: '+count;
+			count++;
+			jsCallApp();
+		}
+		
+		function jsCallApp(){
+			var action = 'addNewElement';
+<!--			var b = 'newElement_'+count;-->
+            var b = document.getElementById('text').value;
+			window.appInterface.jsCallApp(action,b);
+		}
+    
+        function addNewElement(element){
+            
+            var para=document.createElement("p");
+            var node=document.createTextNode(element);
+            para.appendChild(node);
+            
+            var element=document.getElementById("content");
+            element.appendChild(para);
+
+        }
+    
+	</script>
+	</body>
+</html>
