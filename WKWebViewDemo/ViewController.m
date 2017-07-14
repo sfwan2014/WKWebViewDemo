@@ -25,8 +25,13 @@
     WKUserContentController *userContentController = [[WKUserContentController alloc] init];
     // window.webkit.messageHandlers.<name>.postMessage(<messageBody>) for all    DbcInterface .jsCallJava(
     // document.writeln("<script language='javascript' src='en.js' ></script>");
-    // 声明对象 方法 创建方法回调
-    NSString *source = @"var appInterface={}; appInterface.jsCallApp=function(a,b){window.webkit.messageHandlers.message.postMessage('{\"'+a+'\":\"'+b+'\"}')}";
+    
+    // 声明对象 方法 创建方法回调  适用dbc61 网页
+//    NSString *source = @"var DbcInterface={}; DbcInterface.jsCallJava=function(a,b){window.webkit.messageHandlers.message.postMessage('{\"'+a+'\":\"'+b+'\"}')}";
+    
+    // 适用当前demo本地html
+    NSString *source = @"var appObj={}; appObj.jsGetAppToken=function(){window.webkit.messageHandlers.message.postMessage('{\"type\":\"getToken\"}')}; appObj.createOrder=function(a){window.webkit.messageHandlers.message.postMessage('{\"type\":\"createOrder\", \"orderId\":'+a+'}')}";
+    
     WKUserScript *userScript = [[WKUserScript alloc] initWithSource:source injectionTime:WKUserScriptInjectionTimeAtDocumentStart forMainFrameOnly:NO];
     [userContentController addUserScript:userScript];
     
@@ -37,9 +42,12 @@
     config.userContentController = userContentController;
     _webView = [[WKWebView alloc] initWithFrame:self.view.bounds configuration:config];
     _webView.navigationDelegate = self;
-//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://www.dbc61.com/store/html/storeApply.html?user_id=3A7D736B2AAC0270E0530A6464A6EC9F&customer_id=54971&dynamic_id=0e2db390c1ec49db928d1bbdeedbea0a"]];
-//    [_webView loadRequest:request];
     
+//    NSString *url = @"http://juzilab.com/form";
+//    NSString *url = @"http://www.dbc61.com/store/html/storeApply.html?user_id=3A7D736B2AAC0270E0530A6464A6EC9F&customer_id=54971&dynamic_id=0e2db390c1ec49db928d1bbdeedbea0a";
+//    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
+//    [_webView loadRequest:request];
+//
     NSString *filePath = [[NSBundle mainBundle] pathForResource:@"jsMessage.html" ofType:nil];
     NSString *htmlString = [[NSString alloc] initWithContentsOfFile:filePath encoding:NSUTF8StringEncoding error:nil];
     [_webView loadHTMLString:htmlString baseURL:nil];
